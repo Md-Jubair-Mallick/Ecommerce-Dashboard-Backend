@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -56,13 +57,35 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $req)
-    {
-        //
+/**
+ * Store a newly created resource in storage.
+ */
+public function store(Request $req)
+{
+    try {
+        $validatedData = $req->validate([
+            'name' => 'required|string',
+            'price' => 'required|numeric',
+            'description' => 'required|string',
+            'category_name' => 'required|string',
+            'stock' => 'required|integer',
+        ]);
+
+        $category = Category::firstOrCreate(['name' => $validatedData['category_name']]);
+
+        $product = Product::create([
+            'name' => $validatedData['name'],
+            'price' => $validatedData['price'],
+            'description' => $validatedData['description'],
+            'category_id' => $category->id,
+            'stock' => $validatedData['stock'],
+        ]);
+
+        return response()->json(['success' => true, 'result' => $product], 201);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()], 500);
     }
+}
 
     /**
      * Display the specified resource.

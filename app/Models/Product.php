@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasUuids;
     /**
      * Inverse Relationships:
      * Product ↔ Category: One-to-Many.
@@ -14,4 +16,5 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    protected $fillable = ['name', 'price', 'description', 'category_id' ,'stock'];
 }

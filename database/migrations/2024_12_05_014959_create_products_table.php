@@ -24,8 +24,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-// **Products Table:** 
-//   - `id`, `name`, `description`, `price`, `stock`, `category_id`, `created_at`, `updated_at`.
+    
     /**
      * Reverse the migrations.
      */
