@@ -11,4 +11,5 @@ Route::get('/user', function (Request $request) {
 Route::controller(ProductController::class)->group(function () {
     Route::get('/products', 'index'); // For listing all products
     Route::get('/products/{id}', 'show'); // For fetching a specific product
+    Route::delete('/products/{id}', 'destroy'); // For deleting a product
 });

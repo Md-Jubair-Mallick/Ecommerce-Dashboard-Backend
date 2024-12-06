@@ -61,10 +61,17 @@ class ProductController extends Controller
      */
     public function store(Request $req)
     {
-        $id = $req->input('id');
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
         try {
             $product = Product::findOrFail($id);
-    
+
             return response()->json([
                 'success' => true,
                 'result' => $product,
@@ -81,33 +88,6 @@ class ProductController extends Controller
             ], 500);
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-     public function show(string $id)
-     {
-         try {
-            $product = Product::findOrFail($id);
-    
-            return response()->json([
-                'success' => true,
-                'result' => $product,
-            ], 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json([
-                'success' => false,
-                'error' => 'Product not found',
-            ], 404);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'error' => $e->getMessage(),
-            ], 500);
-        }
-     }
-     
-
 
     /**
      * Update the specified resource in storage.
@@ -122,7 +102,24 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $product = Product::destroy($id);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Product deleted successfully',
+            ], 200);
+        } catch (ModelNotFoundException $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Product not found',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }
 
@@ -130,12 +127,8 @@ class ProductController extends Controller
  * TODO
  * - Implement the logic for the ProductController
  * - Add validation for the store and update methods
- * - Add error handling for the destroy method
- * - Add a show method to display the product details
  * - Add a create method to create a new product
  * - Add a edit method to edit an existing product
- * - Add a delete method to delete a product
- * - Add a get method to get a product by id
  * 
  */
 
@@ -158,4 +151,8 @@ class ProductController extends Controller
  * -- [Filter] : Add a filter method to fetch products by price[max, min]
  * - [Sort] : Add a sort method to sort products
  * - [Pagination] : Add a paginate method to paginate products
+ * - Add a get method to get a product by id
+ * -- Add a show method to display the product details
+ * - Add a delete method to delete a product
+ * -
  */
