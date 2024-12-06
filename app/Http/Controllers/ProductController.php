@@ -57,35 +57,35 @@ class ProductController extends Controller
         }
     }
 
-/**
- * Store a newly created resource in storage.
- */
-public function store(Request $req)
-{
-    try {
-        $validatedData = $req->validate([
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'description' => 'required|string',
-            'category_name' => 'required|string',
-            'stock' => 'required|integer',
-        ]);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $req)
+    {
+        try {
+            $validatedData = $req->validate([
+                'name' => 'required|string',
+                'price' => 'required|numeric',
+                'description' => 'required|string',
+                'category_name' => 'required|string',
+                'stock' => 'required|integer',
+            ]);
 
-        $category = Category::firstOrCreate(['name' => $validatedData['category_name']]);
+            $category = Category::firstOrCreate(['name' => $validatedData['category_name']]);
 
-        $product = Product::create([
-            'name' => $validatedData['name'],
-            'price' => $validatedData['price'],
-            'description' => $validatedData['description'],
-            'category_id' => $category->id,
-            'stock' => $validatedData['stock'],
-        ]);
+            $product = Product::create([
+                'name' => $validatedData['name'],
+                'price' => $validatedData['price'],
+                'description' => $validatedData['description'],
+                'category_id' => $category->id,
+                'stock' => $validatedData['stock'],
+            ]);
 
-        return response()->json(['success' => true, 'result' => $product], 201);
-    } catch (\Exception $e) {
-        return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['success' => true, 'result' => $product], 201);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
-}
 
     /**
      * Display the specified resource.
@@ -115,9 +115,25 @@ public function store(Request $req)
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $req, string $id)
+    public function update(Request $req)
     {
-        //
+        try {
+            $validatedData = $req->validate([
+                'name' => 'sometimes|required|string',
+                'price' => 'sometimes|required|numeric',
+                'description' => 'sometimes|required|string',
+                'stock' => 'sometimes|required|integer'
+            ]);
+
+            $product = Product::updateOrCreate(
+                ['id' => $req->id],
+                $validatedData
+            );
+
+            return response()->json(['success' => true, 'result' => $product], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -150,7 +166,6 @@ public function store(Request $req)
  * TODO
  * - Implement the logic for the ProductController
  * - Add validation for the store and update methods
- * - Add a create method to create a new product
  * - Add a edit method to edit an existing product
  * 
  */
@@ -158,15 +173,13 @@ public function store(Request $req)
 /**
  * Features
  * - List Products: Fetch paginated and filtered lists of products.
- * - Product Details: View details of a specific product.
  * - Add/Edit/Delete Product: Admins can manage products.
  * - Filtering and sorting by category, price, stock status, etc.
- * - [Search] : Add a search method to search for products
- * - [Search] : Add a get method to get a product by name
  */
 
 /**
  * DONE
+ * - Add a create method to create a new product
  * - [Normal] : Add a get all method to get all products
  * 
  * - [Filter] : Add a filter method to filter products

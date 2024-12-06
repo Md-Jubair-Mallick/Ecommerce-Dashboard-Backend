@@ -13,4 +13,5 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('/products/{id}', 'show'); // For fetching a specific product
     Route::delete('/products/{id}', 'destroy'); // For deleting a product
     Route::post('/products', 'store'); // For creating a new product
+    Route::put('/products/{id}', 'update');
 });
