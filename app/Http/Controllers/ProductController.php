@@ -165,12 +165,6 @@ class ProductController extends Controller
 /**
  * TODO
  * - Implement the logic for the ProductController
- * - Add validation for the store and update methods
- * - Add a edit method to edit an existing product
- * 
- */
-
-/**
  * Features
  * - List Products: Fetch paginated and filtered lists of products.
  * - Add/Edit/Delete Product: Admins can manage products.
@@ -179,6 +173,8 @@ class ProductController extends Controller
 
 /**
  * DONE
+ * - Add validation for the store and update methods
+ * - Add a edit method to edit an existing product
  * - Add a create method to create a new product
  * - [Normal] : Add a get all method to get all products
  * 
