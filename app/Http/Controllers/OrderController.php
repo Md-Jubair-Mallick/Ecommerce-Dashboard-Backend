@@ -68,21 +68,35 @@ class OrderController extends Controller
         }
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $req)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        try {
+            // $order = Order::with(['customer', 'OrderItems' => function ($query) use ($id) {
+                // $query->where('order_id', $id);
+            // }])->find($id);
+            $order = Order::with('customer')
+            ->get();
+            // ->find($id);
+
+            if (!$order) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Order not found'
+                ], 404);
+            }
+            return response()->json([
+                'success' => true,
+                'result' => $order,
+            ]);
+        } catch (\Exception $th) {
+            return response()->json([
+                'success' => false,
+                'error' => $th->getMessage()
+            ], 500);
+        }
     }
 
     /**
