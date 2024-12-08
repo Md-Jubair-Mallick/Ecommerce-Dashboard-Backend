@@ -22,7 +22,7 @@ class Order extends Model
     /**
      * An order can have many order items.
      */
-    public function OrderItems()
+    public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
     }

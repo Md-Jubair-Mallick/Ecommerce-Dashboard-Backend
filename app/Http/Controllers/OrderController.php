@@ -77,7 +77,7 @@ class OrderController extends Controller
             // $order = Order::with(['customer', 'OrderItems' => function ($query) use ($id) {
                 // $query->where('order_id', $id);
             // }])->find($id);
-            $order = Order::with('customer')
+            $order = Order::with('customer',  'orderItems')
             ->get();
             // ->find($id);
 
