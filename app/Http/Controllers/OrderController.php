@@ -74,12 +74,7 @@ class OrderController extends Controller
     public function show(string $id)
     {
         try {
-            // $order = Order::with(['customer', 'OrderItems' => function ($query) use ($id) {
-                // $query->where('order_id', $id);
-            // }])->find($id);
-            $order = Order::with('customer',  'orderItems')
-            ->get();
-            // ->find($id);
+            $order = Order::with('customer', 'orderItems.product')->find($id);
 
             if (!$order) {
                 return response()->json([
@@ -100,32 +95,40 @@ class OrderController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $req, string $id)
-    {
-        //
-    }
+ * Update the specified resource in storage.
+ */
+public function update(Request $req, string $id)
+{
+    try {
+        $order = Order::find($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if (!$order) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Order not found'
+            ], 404);
+        }
+
+        $order->status = $req->status;
+        $order->save();
+
+        return response()->json(['success' => true]);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'error' => $e->getMessage()]);
     }
+}
 }
 
 /**
  * TODOS
  * - Implement the logic for the OrderController
  * - **Features:**
- * -- View order details, including customer and product information.
- * -- Update order status (e.g., `Pending`, `Shipped`, `Delivered`, `Cancelled`)
  * 
  */
 /**
  * DONE
  * -- List orders with filters (e.g., status, date) and sort (e.g., date) and pagination.
+ * -- View order details, including customer and product information.
+ * -- Update order status (e.g., `Pending`, `Shipped`, `Delivered`, `Cancelled`)
  * 
  */
