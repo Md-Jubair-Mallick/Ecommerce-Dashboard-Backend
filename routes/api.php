@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
@@ -21,4 +22,8 @@ Route::controller(OrderController::class)->group(function(){
     Route::get('/orders', 'index');
     Route::get('/orders/{id}', 'show');
     Route::put('/orders/{id}', 'update');
+});
+
+Route::controller(CustomerController::class)->group(function(){
+    Route::get('/customers', 'index');
 });

@@ -19,6 +19,7 @@ This backend will need to support the features of the admin dashboard by providi
 
 ---
 c c c c c c c c c c c c c c c c c c c c c c c v g
+
 #### **B. Product Management**
 - **Features:**
   - CRUD operations for products.
@@ -35,7 +36,6 @@ c c c c c c c c c c c c c c c c c c c c c c c v g
   - Validation: Product data validation for name, price, stock, etc.
 
 ---
-
 #### **C. Order Management**
 - **Features:**
   - List orders with filters (e.g., status, date).
@@ -66,6 +66,7 @@ c c c c c c c c c c c c c c c c c c c c c c c v g
   - Controller: `CustomerController`.
 
 ---
+
 
 #### **E. Reviews Management**
 - **Features:**
