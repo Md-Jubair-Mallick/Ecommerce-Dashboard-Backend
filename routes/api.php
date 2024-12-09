@@ -26,4 +26,8 @@ Route::controller(OrderController::class)->group(function(){
 
 Route::controller(CustomerController::class)->group(function(){
     Route::get('/customers', 'index');
+    Route::get('/customers/{id}', 'show');
+    Route::post('/customers', 'store');
+    Route::put('customers/{id}', 'update');
+    Route::delete('/customers/{id}', 'destroy');
 });
