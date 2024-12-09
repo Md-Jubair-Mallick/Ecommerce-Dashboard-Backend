@@ -123,7 +123,7 @@ public function update(Request $req, string $id)
  * TODOS
  * - Implement the logic for the OrderController
  * - **Features:**
- * 
+ * - Middleware: Protect sensitive endpoints (auth, role).
  */
 /**
  * DONE
