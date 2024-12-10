@@ -41,8 +41,8 @@ Route::controller(ReviewController::class)->group(function(){
 });
 
 Route::controller(AuthController::class)->group(function(){
-    Route::post('/auth/register', 'register')->middleware(['auth:sanctum', 'role:admin']);
-    Route::post('/auth/login', 'login');
+    Route::post('/auth/register', 'register');
+    Route::post('/auth/login', 'login')->middleware('guest');
     Route::post('/auth/logout', 'logout')->middleware('auth:sanctum');
     Route::get('/auth/me', 'me')->middleware('auth:sanctum');
 });

@@ -7,7 +7,7 @@ This backend will need to support the features of the admin dashboard by providi
 ### **1. Core Modules**
 #### **A. Authentication and Authorization**
 - **Features:**
-  - User registration and login using JWT.
+  - User registration and login using Sanctum.
   - Role-based access (e.g., `admin`, `editor`, and `viewer` roles).
 - **Endpoints:**
   - `POST /api/auth/register` - Register a new user (Admin only).
@@ -18,7 +18,6 @@ This backend will need to support the features of the admin dashboard by providi
   - Middleware: `auth` (verify JWT), `role` (check user roles).
 
 ---
-c c c c c c c c c c c c c c c c c c c c c c c v g
 
 #### **B. Product Management**
 - **Features:**
