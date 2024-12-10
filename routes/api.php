@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -37,4 +38,11 @@ Route::controller(ReviewController::class)->group(function(){
     Route::get('/reviews', 'index');
     Route::put('reviews/{id}', 'update');
     Route::delete('/reviews/{id}', 'destroy');
+});
+
+Route::controller(AuthController::class)->group(function(){
+    Route::post('/auth/register', 'register')->middleware(['auth:sanctum', 'role:admin']);
+    Route::post('/auth/login', 'login');
+    Route::post('/auth/logout', 'logout')->middleware('auth:sanctum');
+    Route::get('/auth/me', 'me')->middleware('auth:sanctum');
 });
