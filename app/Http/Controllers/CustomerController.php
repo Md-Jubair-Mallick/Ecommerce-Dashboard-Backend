@@ -16,6 +16,11 @@ class CustomerController extends Controller
         try {
             $query = Customer::query();
 
+            // Filters by status.
+            if ($req->has('status')) {
+                $query->where('status', $req->input('status'));
+            }
+
             $per_page = $req->input('per_page', 10);
             $customer = $query->paginate($per_page);
 
@@ -91,6 +96,7 @@ class CustomerController extends Controller
                 'email' => 'sometimes|required|email|unique:customers,email,' . $id,
                 'phone' => 'nullable|string|max:15',
                 'address' => 'nullable|string',
+                'status' => 'sometimes|required|in:block,unblock',
             ]);
 
             $customer->update($validated);
@@ -132,11 +138,3 @@ class CustomerController extends Controller
         }
     }
 }
-
-/**
- * TODOS
- * -- add status  (block, unblock) in table
- * - status control
- * -- fetch by status
- * -- update status
- */
