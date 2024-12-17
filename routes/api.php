@@ -8,41 +8,63 @@ use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+/** ---------> only authenticated users can access <---------- */
+Route::middleware(['auth:sanctum'])->group(function () {
 
-Route::controller(ProductController::class)->group(function () {
-    Route::get('/products', 'index'); // For listing all products
-    Route::get('/products/{id}', 'show'); // For fetching a specific product
-    Route::delete('/products/{id}', 'destroy'); // For deleting a product
-    Route::post('/products', 'store'); // For creating a new product
-    Route::put('/products/{id}', 'update');
+    /** ---------> Only admin can access <---------- */
+    Route::middleware(['role:admin'])->group(function () {
+        /** ---------> Product Routes <---------- */
+        Route::controller(ProductController::class)->group(function () {
+            Route::delete('/products/{id}', 'destroy');
+            Route::post('/products', 'store');
+            Route::put('/products/{id}', 'update');
+        });
+        /** ---------> Customer Routes <---------- */
+        Route::controller(CustomerController::class)->group(function () {
+            Route::post('/customer', 'store');
+            Route::put('/customer/{id}', 'update');
+            Route::delete('/customer/{id}', 'destroy');
+        });
+        /** ---------> Review Routes <---------- */
+        Route::controller(ReviewController::class)->group(function () {
+            Route::put('reviews/{id}', 'update');
+            Route::delete('/reviews/{id}', 'destroy');
+        });
+        /** ---------> Order Route <---------- */
+        Route::put('/orders/{id}', [OrderController::class, 'update']);
+        /** ---------> Auth Route <---------- */
+        Route::post('/auth/register', [AuthController::class, 'register']);
+    });
+    
+    /** ---------> Only admin and editor can access <---------- */
+    Route::middleware(['role:admin,editor'])->group(function () {
+        /** ---------> Order Routes <---------- */
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('/orders/{id}', 'show');
+            Route::get('/orders', 'index');
+        });
+        /** ---------> Customer Routes <---------- */
+        Route::controller(CustomerController::class)->group(function () {
+            Route::get('/customers', 'index');
+            Route::get('/customers/{id}', 'show');
+        });
+        /** ---------> Product Route <---------- */
+        Route::get('/products', [ProductController::class, 'index']);
+    });
+
+    /** ---------> All roles can access <---------- */
+    Route::middleware(['role:admin,editor,viewer'])->group(function () {
+        Route::get('/products/{id}', [ProductController::class, 'show']);
+        Route::get('/reviews', [ReviewController::class, 'index']);
+    });
+
+    Route::prefix('auth')->controller(AuthController::class)->group(function () {
+        Route::post('/logout', 'logout');
+        Route::get('/me', 'me');
+    });
 });
 
-Route::controller(OrderController::class)->group(function(){
-    Route::get('/orders', 'index');
-    Route::get('/orders/{id}', 'show');
-    Route::put('/orders/{id}', 'update');
-});
+Route::post('/auth/login', [AuthController::class, 'login']);
 
-Route::controller(CustomerController::class)->group(function(){
-    Route::get('/customers', 'index');
-    Route::get('/customers/{id}', 'show');
-    Route::post('/customers', 'store');
-    Route::put('customers/{id}', 'update');
-    Route::delete('/customers/{id}', 'destroy');
-});
 
-Route::controller(ReviewController::class)->group(function(){
-    Route::get('/reviews', 'index');
-    Route::put('reviews/{id}', 'update');
-    Route::delete('/reviews/{id}', 'destroy');
-});
 
-Route::controller(AuthController::class)->group(function(){
-    Route::post('/auth/register', 'register');
-    Route::post('/auth/login', 'login')->middleware('guest');
-    Route::post('/auth/logout', 'logout')->middleware('auth:sanctum');
-    Route::get('/auth/me', 'me')->middleware('auth:sanctum');
-});
