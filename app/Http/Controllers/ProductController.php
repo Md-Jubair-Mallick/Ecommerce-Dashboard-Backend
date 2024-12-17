@@ -161,34 +161,3 @@ class ProductController extends Controller
         }
     }
 }
-
-/**
- * TODO
- * - Implement the logic for the ProductController
- * - Add validation for the store and update methods
- * - Add a edit method to edit an existing product
- * 
- */
-
-/**
- * Features
- * - List Products: Fetch paginated and filtered lists of products.
- * - Add/Edit/Delete Product: Admins can manage products.
- * - Filtering and sorting by category, price, stock status, etc.
- */
-
-/**
- * DONE
- * - Add a create method to create a new product
- * - [Normal] : Add a get all method to get all products
- * 
- * - [Filter] : Add a filter method to filter products
- * -- [Filter] : Add a filter method to fetch products by category
- * -- [Filter] : Add a filter method to fetch products by price[max, min]
- * - [Sort] : Add a sort method to sort products
- * - [Pagination] : Add a paginate method to paginate products
- * - Add a get method to get a product by id
- * -- Add a show method to display the product details
- * - Add a delete method to delete a product
- * -
- */

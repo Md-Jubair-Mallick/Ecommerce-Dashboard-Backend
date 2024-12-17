@@ -118,17 +118,3 @@ public function update(Request $req, string $id)
     }
 }
 }
-
-/**
- * TODOS
- * - Implement the logic for the OrderController
- * - **Features:**
- * - Middleware: Protect sensitive endpoints (auth, role).
- */
-/**
- * DONE
- * -- List orders with filters (e.g., status, date) and sort (e.g., date) and pagination.
- * -- View order details, including customer and product information.
- * -- Update order status (e.g., `Pending`, `Shipped`, `Delivered`, `Cancelled`)
- * 
- */

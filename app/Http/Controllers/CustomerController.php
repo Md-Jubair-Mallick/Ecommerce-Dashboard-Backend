@@ -135,15 +135,8 @@ class CustomerController extends Controller
 
 /**
  * TODOS
- * - Features:
- * -- Add/Edit/Delete Customer: Admins can manage customer profiles.
  * -- add status  (block, unblock) in table
- * -- update status : admin can manage it
- *
- */
-/**
- * DONE
- * -- List Customers: Fetch customers with pagination.
- * -- Customer Details: View detailed information about a customer, including their order history.
- * -- Add/Edit/Delete Customer:
+ * - status control
+ * -- fetch by status
+ * -- update status
  */
