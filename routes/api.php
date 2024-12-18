@@ -5,6 +5,8 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\AnalyticsController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -35,7 +37,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         /** ---------> Auth Route <---------- */
         Route::post('/auth/register', [AuthController::class, 'register']);
     });
-    
+
     /** ---------> Only admin and editor can access <---------- */
     Route::middleware(['role:admin,editor'])->group(function () {
         /** ---------> Order Routes <---------- */
@@ -67,4 +69,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 
-
+Route::prefix('analytics')->group(function () {
+    Route::get('/sales', [AnalyticsController::class, 'getSalesData']);
+    Route::get('/revenue', [AnalyticsController::class, 'getRevenueData']);
+    Route::get('/customer-growth/{days?}', [AnalyticsController::class, 'getCustomerGrowthData']);
+    Route::get('/daily-revenue/{days?}', [AnalyticsController::class, 'getDailyRevenue']);
+    Route::get('/orders-per-category', [AnalyticsController::class, 'getOrdersPerCategory']);
+});
