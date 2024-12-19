@@ -18,7 +18,7 @@ class AuthController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|unique:users,email',
                 'password' => 'required|string|min:8',
-                'role' => 'required|in:admin,user',
+                'role' => 'required|in:admin,editor,viewer',
             ];
 
             $req->validate($rules);
@@ -90,6 +90,11 @@ public function login(Request $req)
      */
     public function me(Request $req)
     {
-        return response()->json(['user'=>$req->user()]);
+        $user = $req->user();
+        return response()->json([
+            'name'=>$user->name,
+            'email'=>$user->email,
+            'role' => $user->role,
+            ]);
     }
 }

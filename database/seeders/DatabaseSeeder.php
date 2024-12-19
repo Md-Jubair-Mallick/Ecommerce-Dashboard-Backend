@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Customer;
+use App\Models\Review;
 use App\Models\User;
 
 class DatabaseSeeder extends Seeder
@@ -21,20 +22,21 @@ class DatabaseSeeder extends Seeder
         Category::factory()->count(10)->create();
 
         // Create products
-        Product::factory()->count(50)->create();
+        Product::factory()->count(100)->create();
 
         // Create customers
         Customer::factory()->count(20)->create();
 
-        // Create orders and order items
+        // Create orders and their items
         Order::factory()
-            ->count(30)
-            ->has(OrderItem::factory()->count(3))
+            ->count(100)
+            ->has(OrderItem::factory()->count(5), 'orderItems') // Ensure 'orderItems' relationship exists
             ->create();
-            
-        // Create users
-        User::factory()
-        ->count(5)
-        ->create();
+
+        // Create reviews
+        Review::factory()->count(100)->create();
+
+        // Create users (optional)
+        // User::factory()->count(5)->create();
     }
 }
