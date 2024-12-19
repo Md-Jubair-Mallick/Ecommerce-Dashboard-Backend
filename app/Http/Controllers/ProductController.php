@@ -44,7 +44,8 @@ class ProductController extends Controller
             }
 
             // fetch products by sorting
-            if ($req->has('sort_by') && $req->has('sort_order')) {
+            $sortableFields = ['name', 'price', 'created_at'];
+            if ($req->has('sort_by') && in_array($req->input('sort_by'), $sortableFields)) {
                 $query->orderBy($req->input('sort_by'), $req->input('sort_order', 'asc'));
             }
 
@@ -64,11 +65,11 @@ class ProductController extends Controller
     {
         try {
             $validatedData = $req->validate([
-                'name' => 'required|string',
-                'price' => 'required|numeric',
-                'description' => 'required|string',
-                'category_name' => 'required|string',
-                'stock' => 'required|integer',
+                'name' => 'required|string|max:255',
+                'description' => 'required|string|max:1000',
+                'price' => 'required|numeric|min:0',
+                'stock' => 'required|integer|min:0',
+                'category_name' => 'required|string|max:100',                
             ]);
 
             $category = Category::firstOrCreate(['name' => $validatedData['category_name']]);

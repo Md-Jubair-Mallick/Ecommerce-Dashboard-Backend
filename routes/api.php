@@ -1,12 +1,11 @@
 <?php
 
+use App\Http\Controllers\API\AnalyticsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\AnalyticsController;
-// use App\Http\Middleware\RoleMiddleware;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +25,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
         /** ---------> Customer Routes <---------- */
         Route::controller(CustomerController::class)->group(function () {
-            Route::post('/customer', 'store');
-            Route::put('/customer/{id}', 'update');
-            Route::delete('/customer/{id}', 'destroy');
+            Route::post('/customers', 'store');
+            Route::put('/customers/{id}', 'update');
+            Route::delete('/customers/{id}', 'destroy');
         });
 
         /** ---------> Review Routes <---------- */
@@ -58,12 +57,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::get('/customers/{id}', 'show');
         });
 
-        /** ---------> Product Routes <---------- */
-        Route::get('/products', [ProductController::class, 'index']);
     });
-
+    
     /** ---------> All roles can access <---------- */
     Route::middleware(['role:admin,editor,viewer'])->group(function () {
+        /** ---------> Product Routes <---------- */
+        Route::get('/products', [ProductController::class, 'index']);
         Route::get('/products/{id}', [ProductController::class, 'show']);
         Route::get('/reviews', [ReviewController::class, 'index']);
     });
@@ -82,7 +81,5 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 Route::prefix('analytics')->group(function () {
     Route::get('/sales', [AnalyticsController::class, 'getSalesData']);
     Route::get('/revenue', [AnalyticsController::class, 'getRevenueData']);
-    Route::get('/customer-growth/{days?}', [AnalyticsController::class, 'getCustomerGrowthData']);
-    Route::get('/daily-revenue/{days?}', [AnalyticsController::class, 'getDailyRevenue']);
-    Route::get('/orders-per-category', [AnalyticsController::class, 'getOrdersPerCategory']);
+    Route::get('/customers', [AnalyticsController::class, 'getCustomerGrowthData']);
 });

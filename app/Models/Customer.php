@@ -10,7 +10,7 @@ class Customer extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $fillable = ['name', 'email', 'phone', 'address'];
+    protected $fillable = ['name', 'email', 'phone', 'address', 'status'];
 
 
     public function orders() {

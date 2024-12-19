@@ -94,13 +94,11 @@ class CustomerController extends Controller
             $validated = $req->validate([
                 'name' => 'sometimes|required|string|max:255',
                 'email' => 'sometimes|required|email|unique:customers,email,' . $id,
-                'phone' => 'nullable|string|max:15',
+                'phone' => 'nullable|string|max:13',
                 'address' => 'nullable|string',
                 'status' => 'sometimes|required|in:block,unblock',
             ]);
-
-            $customer->update($validated);
-
+           $customer->update($validated);
             return response()->json([
                 'success' => true,
                 'message' => 'Customer updated successfully',
