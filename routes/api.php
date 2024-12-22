@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\AnalyticsController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CustomerController;
+use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\ReviewController;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +39,9 @@ Route::prefix('v1')->group(function () {
             Route::controller(ProductController::class)->group(function () {
                 Route::delete('/products/{id}', 'destroy');
                 Route::post('/products', 'store');
+                // Route::post('/products', function() {
+                    // return 'store';
+                // });
                 Route::put('/products/{id}', 'update');
             });
 

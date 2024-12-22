@@ -2,6 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Http\Helpers\ResponseHelper;
+use App\Models\Category;
 use App\Models\Product;
 
 
@@ -46,9 +48,7 @@ class ProductRepository
             // Paginate products
             $products = $query->paginate($req->input('per_page', 10));
 
-            return response()->json(['success' => true, 'result' => $products], 200);
-        
-        return Product::all();
+            return $products;
     }
 
     public function getProductById($id)
@@ -56,14 +56,24 @@ class ProductRepository
         return Product::findOrFail($id);
     }
 
-    public function createProduct(array $data)
+    public function createProduct($validated)
     {
-        return Product::create($data);
+        
+        $category = Category::firstOrCreate(['name' => $validated['category_name']]);
+
+        $product = Product::create([
+            'name' => $validated['name'],
+            'price' => $validated['price'],
+            'description' => $validated['description'],
+            'category_id' => $category->id,
+            'stock' => $validated['stock'],
+        ]);
+        return $product;
     }
 
-    public function updateProduct($id, array $data)
+    public function updateProduct($id, $validated)
     {
-        return Product::findOrFail($id)->update($data);
+        return Product::findOrFail($id)->update($validated);
     }
 
     public function deleteProduct($id)

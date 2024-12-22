@@ -13,9 +13,19 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function getAllProducts()
+    public function getAllProducts($validated)
     {
-        return $this->productRepository->getAllProducts();
+        $products = $this->productRepository->getAllProducts($validated);
+        $result = [
+            'meta' => [
+                'current_page' => $products->currentPage(),
+                'last_page' => $products->lastPage(),
+                'per_page' => $products->perPage(),
+                'total' => $products->total(),
+            ],
+            'products' => $products->items()
+        ];
+        return $result;
     }
 
     public function getProductById($id)
@@ -23,14 +33,14 @@ class ProductService
         return $this->productRepository->getProductById($id);
     }
 
-    public function createProduct(array $data)
+    public function createProduct($validated)
     {
-        return $this->productRepository->createProduct($data);
+        return $this->productRepository->createProduct($validated);
     }
 
-    public function updateProduct($id, array $data)
+    public function updateProduct($id, $validated)
     {
-        return $this->productRepository->updateProduct($id, $data);
+        return $this->productRepository->updateProduct($id, $validated);
     }
 
     public function deleteProduct($id)
