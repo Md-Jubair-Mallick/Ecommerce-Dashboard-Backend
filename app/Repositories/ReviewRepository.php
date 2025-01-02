@@ -9,7 +9,8 @@ class ReviewRepository
 {
     public function all($filters = [])
     {
-        $query = Review::query();
+        // $query = Review::query();
+        $query = Review::with(['customer', 'product']);
 
         if (isset($filters['product_id'])) {
             $query->where('product_id', $filters['product_id']);
